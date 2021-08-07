@@ -1,0 +1,28 @@
+<div style="position:relative; left:408px; top:60px;" >
+    <button   class="btn" [ngClass]="{'btn-dark': state == 'On' || state == 'Sold Out', 'btn-secondary': state =='Off'}" (click)="onOffButtonClick()">POWER</button>
+    <div *ngIf="state != 'Off'">
+        <p style="position: relative; top: 30px; font-weight: bold;">{{displayLine1}}</p>
+
+        <div class="row" style="position:relative; top: 87px;">
+            <p style="font-weight: bold;">{{displayLine2}}</p>
+            <button style="width: 40px; position: relative; left: 191px; bottom: 55px; opacity: 0;" (click)="directionButtonClick('up')" [disabled]="state == 'Sold Out'">^</button>
+            <button style="width: 40px; position: relative; left: 151px; bottom: 25px; opacity: 0;" (click)="directionButtonClick('down')" [disabled]="state == 'Sold Out'">v</button>
+        </div>
+
+        <app-credit-card-reader style="position: relative; left: 45px; top: 90px;"[product]="this.selectedProduct" (paymentProcessEvent)="getPaymentResponse($event)"></app-credit-card-reader>
+
+        <div style="width: 320px; height: 160px; position: relative; right:375px ; top: 250px;">
+            <img *ngFor="let prod of this.dispensedItems; let ind=index" (click)="dispensedItemClick(ind)"  width='60px' style="position: relative; left: 25px; top: 25px;" [src]="'assets/'+this.prod?.productName+'.png'">
+        </div>
+
+        <div>
+            <p *ngIf="totalAmountReceived > 0">Total received money: {{this.totalAmountReceived | currency}}</p>
+            <div *ngIf="totalProductsSold.length > 0">
+                <p>Total products sold:</p>
+                <ul>
+                    <li *ngFor="let prod of totalProductsSold">{{prod.productName}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
